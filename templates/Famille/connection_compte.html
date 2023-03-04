@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block title %}
+        <title>Accueil</title>
+    {% endblock %}
+</head>
+
+<body>
+{% if accreditation == 1 %}
+    {% include('navbar_1.html') %}
+{% endif %}
+{% if accreditation == 2 %}
+    {% include('navbar_2.html') %}
+{% endif %}
+{% if accreditation == 3%}
+    {% include('navbar_3.html') %}
+{% else %}
+    {% include('navbar_4.html') %}
+{% endif %}
+
+{% block body %}
+    <div class="modal modal-signin position-static d-block py-5" tabindex="-1" role="dialog" id="modalSignin">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h1 class="fw-bold mb-0 fs-2">Connection</h1>
+                    </div>
+                    <div class="modal-body p-5 pt-0">
+                    <form class="" method="POST" action="/accueil/connection_compte" >
+                        <div class="form-floating mb-3">
+                            <input name="pseudo" type="text" class="form-control rounded-3" id="pseudo" placeholder="Saisir votre pseudo" required>
+                            <label for="pseudo">Pseudo</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input name="mdp" type="text" class="form-control rounded-3" id="mdp" placeholder="Mots de passe" required>
+                            <label for="mdp">Mots de passe</label>
+                        </div>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Ce connecter</button>
+                        <hr class="my-4">
+                        <a href="/accueil?accreditation=4"><button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Retour</button></a>
+                        <a href="/accueil/demande_creer_compte"><button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Crée un compte</button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% include('footer.html') %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

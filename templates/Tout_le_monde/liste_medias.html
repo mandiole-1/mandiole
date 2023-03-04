@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Médias</title>
+    {% endblock %}
+</head>
+
+<body>
+{% include('Tout_le_monde/navbar.html') %}
+{% block body %}
+<div class="album py-5">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            {% for ligne in info_medias %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        {% if ligne.id_type_medias == image['id_type_medias'] %}
+                            <img src="/static/images/{{ligne.lien_medias}}" alt="{{ligne.libelle_medias}}">
+                        {% endif %}
+                        {% if ligne.id_type_medias == video['id_type_medias'] %}
+                            <video controls>
+                                <source src="/static/videos/{{ligne.lien_medias}}" type="video/webm">
+                                <source src="/static/videos/{{ligne.lien_medias}}" type="video/mp4">
+                                Download the
+                                <a href="/static/videos/{{ligne.lien_medias}}">WEBM</a>
+                                or
+                                <a href="/static/videos/{{ligne.lien_medias}}">MP4</a>
+                                video.
+                            </video>
+                        {% endif %}
+                        {% if ligne.id_type_medias == audio['id_type_medias'] %}
+                            <audio controls src="/static/audios/audio.mp3"> <a href="/static/audios/audio.mp3"> Download audio </a> </audio>
+                        {% endif %}
+                        <div class="card-body">
+                            <p class="card-text"> {{ ligne.libelle_medias }} </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <p><a class="btn btn-sm btn-primary" href="#">Regarder</a></p>
+                                </div>
+                                <small class="text-muted"> {{ ligne.date_medias }} </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

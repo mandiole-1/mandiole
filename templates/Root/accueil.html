@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Accueil</title>
+    {% endblock %}
+</head>
+
+<body>
+{% if accreditation == 1 %}
+    {% include('navbar_1.html') %}
+    <p>1</p>
+{% elif accreditation == 2 %}
+    {% include('navbar_2.html') %}
+    <p>2</p>
+{% elif accreditation == 3 %}
+    {% include('navbar_3.html') %}
+    <p>3</p>
+{% else %}
+    {% include('navbar_4.html') %}
+    <p>4</p>
+{% endif %}
+{% block body %}
+<div class="album py-5">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            {% for ligne in info_album %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        {% for lien in image_album %}
+                            {% if lien.id_image == ligne.id_image_album %}
+                        <img src="../static/images/accueil/carousel/{{ lien.lien_image }}" alt="...">
+                        <div class="card-body">
+                            <p class="card-text"> {{ ligne.description_album }} </p>
+                            {% endif %}
+                        {% endfor %}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <p><a class="btn btn-sm btn-primary" href="#">Regarder</a></p>
+                                </div>
+                                <small class="text-muted"> {{ ligne.date_album }} </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% include('footer.html') %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>
