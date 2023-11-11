@@ -6,7 +6,9 @@ from controllers.autre_connection import *
 from controllers.famille import *
 from controllers.admin import *
 from controllers.root import *
+from controllers.perso import *
 from connexion_db import get_db
+
 
 app = Flask(__name__)
 app.secret_key = 'une cle(token) : grain de sel(any random string)'
@@ -32,6 +34,7 @@ def teardown_db(exception):
     if db is not None:
         db.close()
 
+
 @app.route('/')
 def show_accueil():
     mycursor = get_db().cursor()
@@ -42,7 +45,7 @@ def show_accueil():
     session['accreditation'] = 4
     sql = "SELECT libelle_image_accueil FROM image_accueil;"
     mycursor.execute(sql)
-    image_accueil = mycursor.fetchall()
+    image_accueil = mycursor.fetchone()
     sql = "SELECT * FROM texte_accueil;"
     mycursor.execute(sql)
     texte_accueil = mycursor.fetchall()
@@ -60,6 +63,7 @@ app.register_blueprint(autre_connection)
 app.register_blueprint(famille)
 app.register_blueprint(admin)
 app.register_blueprint(root)
+app.register_blueprint(perso)
 
 
 

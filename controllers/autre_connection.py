@@ -1,17 +1,11 @@
-from flask import Blueprint
-from flask import Flask, request, render_template, redirect, flash, session
-import os
-os.environ['SENDINBLUE_API_KEY'] = 'votre_clé_api_sendinblue'
-
+from flask import Flask, request, render_template, redirect, flash, session, Blueprint
+# import os
 import requests
 import json
-from werkzeug.security import generate_password_hash, check_password_hash
-
-
+# from werkzeug.security import generate_password_hash, check_password_hash
 from connexion_db import get_db
 
-autre_connection = Blueprint('autre_connection', __name__,
-                        template_folder='templates')
+autre_connection = Blueprint('autre_connection', __name__, template_folder='templates')
 
 
 @autre_connection.route('/login')
@@ -26,7 +20,7 @@ def autre_login_post():
     password = request.form.get('password')
     tuple_select = (login, password)
     sql = "SELECT * FROM Utilisateurs WHERE login = %s AND password = %s;"
-    mycursor.execute(sql,tuple_select)
+    mycursor.execute(sql, tuple_select)
     user = mycursor.fetchone()
     if user:
         session['login'] = user['login']
@@ -35,7 +29,6 @@ def autre_login_post():
         session['prenom'] = user['prenom_utilisateur']
         session['accreditation'] = user['id_accreditation_utilisateur']
         session['mail'] = user['mail_utilisateur']
-        #print(user['login'], user['nom_utilisateur'], user['prenom_utilisateur'])
         if session['accreditation'] == 1:
             flash(u'Connexion réussite ! Vous êtes connecter entant que Root.', 'alert-success')
             return redirect('/root/accueil/show')
@@ -66,6 +59,9 @@ def auth_signup_post():
     nom = request.form.get('nom')
     prenom = request.form.get('prenom')
     mail = request.form.get('email')
+    sql = "SELECT libelle_key FROM api_key_sendinblue;"
+    mycursor.execute(sql)
+    api_key = mycursor.fetchone()
     tuple_select = (login, mail)
     sql = "SELECT * FROM Utilisateurs WHERE login = %s OR mail_utilisateur = %s;"
     mycursor.execute(sql, tuple_select)
@@ -88,10 +84,9 @@ def auth_signup_post():
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "api-key": "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"
+        "api-key": api_key
     }
     response = requests.post(url, data=json.dumps(payload), headers=headers)
-    print(response.json())
     if response.status_code == 201:
         flash(u'Compte utilisateur trouver, un mail vas vous être envoyer !', 'alert-success')
         return redirect('/login')
@@ -108,7 +103,7 @@ def auth_logout():
     session['nom'] = None
     session['prenom'] = None
     session['accreditation'] = 4
-    flash(u'Déconnexion réussi !','alert-success')
+    flash(u'Déconnexion réussi !', 'alert-success')
     return redirect('/autres/accueil/show')
 
 
@@ -116,14 +111,18 @@ def auth_logout():
 def forget_password():
     return render_template('Tout_le_monde/mots_de_passe_oublie.html')
 
+
 @autre_connection.route('/forget-password', methods=["POST"])
 def forget_password_envoi():
     login = request.form.get('login')
     email = request.form.get('mail')
     mycursor = get_db().cursor()
-    tuple_select_login = (login)
-    tuple_select_mail = (email)
+    tuple_select_login = login
+    tuple_select_mail = email
     tuple_select = (login, email)
+    sql = "SELECT libelle_key FROM api_key_sendinblue;"
+    mycursor.execute(sql)
+    api_key = mycursor.fetchone()
     if login == None and email != None:
         sql = "SELECT COUNT(login) AS nb FROM Utilisateurs WHERE mail_utilisateur = %s;"
         mycursor.execute(sql, tuple_select_mail)
@@ -163,18 +162,20 @@ def forget_password_envoi():
         headers = {
             "accept": "application/json",
             "content-type": "application/json",
-            "api-key": "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"
+            "api-key": api_key
         }
         response = requests.post(url, data=json.dumps(payload), headers=headers)
-        print(response.json())
         if response.status_code == 201:
             flash(u'Compte utilisateur trouver, un mail vas vous être envoyer !', 'alert-success')
             return redirect('/autres/accueil/show')
         else:
-            flash(u'Compte utilisateur trouver, mail non envoyer ! Veuillez nous contacter si le problème persiste.', 'alert-warning')
+            flash(u'Compte utilisateur trouver, mail non envoyer ! Veuillez nous contacter si le problème persiste.',
+                  'alert-warning')
             return render_template('Tout_le_monde/mots_de_passe_oublie.html')
     else:
-        flash(u'Plusieurs utilisateurs possède le même pseudo ou le même mail que vous. Veuillez nous contacter si le problème persiste.', 'alert-warning')
+        flash(
+            u'Plusieurs utilisateurs possède le même pseudo ou le même mail que vous. Veuillez nous contacter si le problème persiste.',
+            'alert-warning')
         return render_template('Tout_le_monde/mots_de_passe_oublie.html')
 
 
@@ -183,15 +184,16 @@ def autres_accueil_show():
     mycursor = get_db().cursor()
     sql = "SELECT libelle_image_accueil FROM image_accueil;"
     mycursor.execute(sql)
-    image_accueil = mycursor.fetchall()
+    image_accueil = mycursor.fetchone()
     sql = "SELECT * FROM texte_accueil;"
     mycursor.execute(sql)
     texte_accueil = mycursor.fetchall()
     tuple_select_albums = (session['accreditation'])
-    sql = "SELECT * FROM Albums INNER JOIN albums_accueil ON Albums.id_album = albums_accueil.id_album_accueil WHERE id_accreditation_album = %s;"
+    sql = "SELECT * FROM Albums INNER JOIN albums_accueil ON Albums.id_album = albums_accueil.id_album_accueil WHERE id_accreditation_album >= %s;"
     mycursor.execute(sql, tuple_select_albums)
     albums_accueil = mycursor.fetchall()
-    return render_template('Tout_le_monde/accueil.html', image_accueil=image_accueil, texte_accueil=texte_accueil, albums_accueil=albums_accueil)
+    return render_template('Tout_le_monde/accueil.html', image_accueil=image_accueil, texte_accueil=texte_accueil,
+                           albums_accueil=albums_accueil)
 
 
 @autre_connection.route('/autres/liste/album/show')
@@ -202,7 +204,7 @@ def autres_liste_album_show():
     else:
         accreditation = 4
     tuple_select = (accreditation)
-    sql = "SELECT * FROM Albums WHERE id_accreditation_album = %s;"
+    sql = "SELECT * FROM Albums WHERE id_accreditation_album >= %s;"
     mycursor.execute(sql, tuple_select)
     info_album = mycursor.fetchall()
     return render_template('Tout_le_monde/liste_album.html', info_album=info_album)
@@ -220,7 +222,7 @@ def autres_accueil_medias_show():
     mycursor.execute(sql, tuple_select)
     info_medias = mycursor.fetchall()
     sql1 = "SELECT id_type_medias FROM Types where id_type_medias = 1;"
-    sql2= "SELECT id_type_medias FROM Types where id_type_medias = 2;"
+    sql2 = "SELECT id_type_medias FROM Types where id_type_medias = 2;"
     sql3 = "SELECT id_type_medias FROM Types where id_type_medias = 3;"
     mycursor.execute(sql1)
     image = mycursor.fetchone()
@@ -228,7 +230,8 @@ def autres_accueil_medias_show():
     video = mycursor.fetchone()
     mycursor.execute(sql3)
     audio = mycursor.fetchone()
-    return render_template('Tout_le_monde/liste_medias.html', info_medias=info_medias, image=image, video=video, audio=audio)
+    return render_template('Tout_le_monde/liste_medias.html', info_medias=info_medias, image=image, video=video,
+                           audio=audio)
 
 
 @autre_connection.route('/autres/info_user/show')
@@ -241,7 +244,8 @@ def autres_info_user_show():
         info_user = mycursor.fetchall()
         return render_template('Tout_le_monde/info_user.html', info_user=info_user)
     else:
-        flash(u'Cette action nécessite un compte utilisateur ! Veuillez vous connecter ou bien crée un compte.', 'alert-warning')
+        flash(u'Cette action nécessite un compte utilisateur ! Veuillez vous connecter ou bien crée un compte.',
+              'alert-warning')
         return redirect('/login')
 
 
@@ -255,7 +259,8 @@ def autres_info_user_edit_get():
         info_user = mycursor.fetchone()
         return render_template('Tout_le_monde/edit_info_user.html', info_user=info_user)
     else:
-        flash(u'Cette action nécessite un compte utilisateur ! Veuillez vous connecter ou bien crée un compte.', 'alert-warning')
+        flash(u'Cette action nécessite un compte utilisateur ! Veuillez vous connecter ou bien crée un compte.',
+              'alert-warning')
         return redirect('/login')
 
 
@@ -270,7 +275,16 @@ def autres_info_user_edit_post():
         new_mail = request.form.get('mail')
         old_login = session['login']
         tuple_edit = (new_login, new_password, new_nom, new_prenom, new_mail, old_login)
-        print(tuple_edit)
+        sql = "SELECT id_medias FROM Medias WHERE login = %s;"
+        mycursor.execute(sql, (old_login,))
+        medias = mycursor.fetchall()
+        if len(medias) != 0 and new_login != old_login:
+            flash(u'Vous ne pouvez pas modifier votre pseudo !', 'alert-warning')
+            sql = "SELECT login AS pseudo, password, prenom_utilisateur AS prenom, nom_utilisateur AS nom, mail_utilisateur AS mail FROM Utilisateurs WHERE login = %s;"
+            tuple_select = (session['login'])
+            mycursor.execute(sql, tuple_select)
+            info_user = mycursor.fetchall()
+            return render_template('Root/info_user.html', info_user=info_user)
         sql = "UPDATE Utilisateurs SET login = %s, password = %s, nom_utilisateur = %s, prenom_utilisateur = %s , mail_utilisateur = %s WHERE login = %s;"
         mycursor.execute(sql, tuple_edit)
         flash(u'Modifications réussites !', 'alert-success')
@@ -291,7 +305,8 @@ def autres_info_user_edit_post():
         info_user = mycursor.fetchall()
         return render_template('Tout_le_monde/info_user.html', info_user=info_user)
     else:
-        flash(u'Cette action nécessite un compte utilisateur ! Veuillez vous connecter ou bien crée un compte.', 'alert-warning')
+        flash(u'Cette action nécessite un compte utilisateur ! Veuillez vous connecter ou bien crée un compte.',
+              'alert-warning')
         return redirect('/login')
 
 
@@ -303,6 +318,9 @@ def autres_suppr_compte():
     password = session['password']
     nom = session['nom']
     prenom = session['prenom']
+    sql = "SELECT libelle_key FROM api_key_sendinblue;"
+    mycursor.execute(sql)
+    api_key = mycursor.fetchone()
     url = "https://api.sendinblue.com/v3/smtp/email"
     payload = {
         "sender": {"name": "Mandiole", "email": "mandiole.services@gmail.com"},
@@ -313,10 +331,9 @@ def autres_suppr_compte():
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "api-key": "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"
+        "api-key": api_key
     }
     response = requests.post(url, data=json.dumps(payload), headers=headers)
-    print(response.json())
     sql = "DELETE FROM Utilisateurs WHERE login = %s;"
     mycursor.execute(sql, (login))
     get_db().commit()
@@ -326,6 +343,35 @@ def autres_suppr_compte():
 
 @autre_connection.route('/autres/a_propos')
 def autres_a_propos_de_nous():
-    return render_template('Tout_le_monde/a_propos.html')
+    mycursor = get_db().cursor()
+    sql = "SELECT titre_a_propos AS titre, texte_a_propos AS texte FROM a_propos;"
+    mycursor.execute(sql)
+    texte = mycursor.fetchall()
+    return render_template('Tout_le_monde/a_propos.html', texte=texte)
 
 
+@autre_connection.route('/autres/albums/show')
+def autres_show_albums():
+    mycursor = get_db().cursor()
+    id_album = request.args.get('id_album')
+    id_accreditation = session['accreditation']
+    tuple_select = (id_album, id_accreditation)
+    sql = "SELECT * FROM Albums WHERE id_album = %s AND id_accreditation_album >= %s;"
+    mycursor.execute(sql, tuple_select)
+    infos_albums = mycursor.fetchall()
+    tuple_select = (id_album, id_accreditation)
+    sql = "SELECT * FROM Medias INNER JOIN medias_album ma on Medias.id_medias = ma.id_medias WHERE id_album = %s AND Medias.id_medias = ma.id_medias AND id_accreditation_medias = %s;"
+    mycursor.execute(sql, tuple_select)
+    infos_medias = mycursor.fetchall()
+    return render_template('Tout_le_monde/album.html', infos_albums=infos_albums, infos_medias=infos_medias)
+
+
+@autre_connection.route('/autres/medias/show')
+def autres_show_medias():
+    mycursor = get_db().cursor()
+    id_medias = request.args.get('id_medias')
+    tuple_select = (id_medias,)
+    sql = "SELECT * FROM Medias WHERE id_medias = %s;"
+    mycursor.execute(sql, tuple_select)
+    infos_medias = mycursor.fetchall()
+    return render_template('Tout_le_monde/medias.html', infos_medias=infos_medias)
