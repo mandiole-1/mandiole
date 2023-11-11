@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Perso</title>
+    {% endblock %}
+</head>
+
+<body>
+{% include('Root/navbar.html') %}
+
+{% block body %}
+
+<div class="text-center">
+    <div class="album py-5">
+
+        <div class="container">
+            <h1>Perso</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Instagram">
+                        <div class="card-body">
+                            <p class="card-text">Instagram</p>
+                            <form class="" action="/perso/instagram/show" >
+                                <button class="btn btn-sm btn-primary" type="submit">Instagram</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

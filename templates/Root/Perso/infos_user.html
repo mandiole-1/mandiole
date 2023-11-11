@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Utilisateur Instragram</title>
+    {% endblock %}
+</head>
+
+<body>
+{% include('Root/navbar.html') %}
+{% block body %}
+
+{% for ligne in infos_user %}
+<div class="d-flex">
+    <div class="m-md-3 flex-grow-1" style="text-align: center">
+        <img src="/static/Perso/{{ligne.photo_profile}}" alt="{{ligne.photo_profile}}">
+
+    </div>
+    <div class="col-md-5 my-5">
+        <p class="lead fw-normal"><u>Nom d'utilisateur :</u> {{ ligne.nom_utilisateur }}</p>
+        <small><u>Identifiant :</u> {{ ligne.id_user }}</small>
+    </div>
+</div>
+{% endfor %}
+
+<div class="album py-5">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+
+            {% for ligne in infos_medias %}
+                {% if not ligne.lien_medias.endswith(('.xz', '.txt')) %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        {% if ligne.lien_medias.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
+                            <img src="/static/Perso/{{ligne.lien_medias}}" alt="{{ligne.libelle_medias}}">
+                        {% elif ligne.lien_medias.endswith(('.webm', '.mp4')) %}
+                            <video controls>
+                                <source src="/static/Perso/{{ligne.lien_medias}}" type="video/webm">
+                                <source src="/static/Perso/{{ligne.lien_medias}}" type="video/mp4">
+                                Download the
+                                <a href="/static/Perso/{{ligne.lien_medias}}">WEBM</a>
+                                or
+                                <a href="/static/Perso/{{ligne.lien_medias}}">MP4</a>
+                                video.
+                            </video>
+                        {% elif ligne.lien_medias.endswith(('.mp3')) %}
+                            <audio controls src="/static/{{ligne.lien_medias}}"> <a href="/static/{{ligne.lien_medias}}"> Download audio </a> </audio>
+                        {% endif %}
+                        <div class="card-body">
+                            <p class="card-text"> {{ ligne.lien_medias }} </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <form class="" action="/perso/instagram/show/medias" >
+                                        <input name="id_medias" type="hidden" class="form-control rounded-3" id="id_medias" value="{{ ligne.id_medias }}">
+                                        <button class="btn btn-sm btn-primary" type="submit">Regarder</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

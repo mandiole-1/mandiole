@@ -9,7 +9,7 @@
 </head>
 
 <body>
-{% include('Tout_le_monde/navbar.html') %}
+{% include('Administrateur/navbar.html') %}
 {% block body %}
 <div class="album py-5">
     <div class="container">
@@ -23,7 +23,7 @@
                             <p class="card-text"> {{ ligne.description_album }} </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <form class="" action="/autres/albums/show" >
+                                    <form class="" action="/admin/albums/show" >
                                         <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="{{ ligne.id_album }}">
                                         <button class="btn btn-sm btn-primary" type="submit">Regarder</button>
                                     </form>

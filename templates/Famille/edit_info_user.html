@@ -3,25 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     {% block title %}
-        <title>Création de compte</title>
+        <title>Infos utilisateurs</title>
     {% endblock %}
+
 </head>
 
-<body>
-
+<body class="text-center">
 {% include('Famille/navbar.html') %}
 
 {% block body %}
+
     <div class="modal modal-signin position-static d-block py-5" tabindex="-1" role="dialog" id="modalSignin">
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Crée un compte</h1>
+                    <h1 class="fw-bold mb-0 fs-2">Infos sur le compte :</h1>
                     </div>
                     <div class="modal-body p-5 pt-0">
-                    <form class="" method="POST" action="/signup" >
+                    <form class="" method="POST" action="/autres/info_user/edit" >
                         <div class="form-floating mb-3">
                             <input name="login" type="text" class="form-control rounded-3" id="login" placeholder="Pseudo" required>
                             <label for="login">Pseudo</label>
@@ -42,14 +42,16 @@
                             <input name="mail" type="text" class="form-control rounded-3" id="mail" placeholder="Adresse mail" required>
                             <label for="mail">Mail</label>
                         </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Crée un compte</button>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Modifier</button>
                         <hr class="my-4">
+                        <a href="/autres/suppr_compte"><button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Supprimer le compte</button></a>
                         <a href="/login"><button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Retour</button></a>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 {% block javascripts %}

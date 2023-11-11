@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     {% block title %}
-        <title>Connection</title>
+        <title>Mots de passe oublié</title>
     {% endblock %}
 </head>
 
@@ -16,20 +16,26 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Connection</h1>
+                    <h1 class="fw-bold mb-0 fs-2">Mots de passe oublié</h1>
                     </div>
                     <div class="modal-body p-5 pt-0">
-                    <form class="" method="POST" action="/login" >
+                    <form class="" method="POST" action="/forget-password" >
                         <div class="form-floating mb-3">
-                            <input name="login" type="text" class="form-control rounded-3" id="login" placeholder="Saisir votre pseudo" required>
+                            <input name="login" type="text" class="form-control rounded-3" id="login" placeholder="Saisir votre pseudo">
                             <label for="login">Pseudo</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input name="password" type="text" class="form-control rounded-3" id="password" placeholder="Mots de passe" required>
-                            <label for="password">Mots de passe</label>
+                            <input name="mail" type="text" class="form-control rounded-3" id="mail" placeholder="Saisir votre mail">
+                            <label for="mail">Mail</label>
                         </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Se connecter</button>
-                        <a href="/forget-password"><button type="button" class="btn btn-sm w-100">Identifiant ou mots de passe oublié</button></a>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Demander l'envoie du mots de passe</button>
+                        <small>
+                            Votre identifiants de connection serons envoyer à l'adresse que vous avez renseigner lors de votre inscription.
+                            <br>
+                            Ce processus n'est pas gérer automatiquement. Le délai de réponse moyen et d'une semaine.
+                            <br>
+                            Si aucun mail ne vous ai envoyer au bout d'une semaine ou que vous rencontrer un autre problème contacter nous à l'adresse suivante : <u>mandiole.services@gmail.com</u>
+                        </small>
                         <hr class="my-4">
                         <a href="/"><button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Retour</button></a>
                         <a href="/signup"><button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Crée un compte</button></a>

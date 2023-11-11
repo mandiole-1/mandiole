@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Instagram</title>
+    {% endblock %}
+</head>
+
+<body>
+
+{% include('Root/navbar.html') %}
+
+{% block body %}
+
+<div class="text-center">
+    <div class="album py-5">
+
+        <div class="container">
+            <h1>Instagram</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <button class="btn btn-sm btn-primary" onclick="update_all()">Tout mettre à jour</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <form class="" action="/perso/instagram/user/add" >
+                                <input name="nom_utilisateur" type="text" class="form-control rounded-3" id="nom_utilisateur" value="">
+                                <br>
+                                <button class="btn btn-sm btn-primary" type="submit">Ajouter</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <form class="" action="/perso/instagram/medias/show/all" >
+                                <button class="btn btn-sm btn-primary" type="submit">Tout regarder</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="text-center">
+    <div class="album py-1">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-2">
+
+                {% for ligne in infos_user_photo %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="/static/Perso/{{ ligne.libelle_medias }}" alt="{{ ligne.libelle_medias }}">
+                            <div class="card-body">
+                                <p class="card-text">{{ ligne.nom_utilisateur }}</p>
+                                <form class="" action="/perso/instagram/update_one" >
+                                    <input name="id_user" type="hidden" class="form-control rounded-3" id="id_user" value="{{ ligne.id_user }}">
+                                    <button class="btn btn-sm btn-primary" type="submit">Actualiser</button>
+                                </form>
+                                <form class="" action="/perso/instagram/show/user" >
+                                    <input name="id_user" type="hidden" class="form-control rounded-3" id="id_user" value="{{ ligne.id_user }}">
+                                    <button class="btn btn-sm btn-primary" type="submit">Regarder</button>
+                                </form>
+                                <form class="" action="/perso/instagram/delete" >
+                                    <input name="id_user" type="hidden" class="form-control rounded-3" id="id_user" value="{{ ligne.id_user }}">
+                                    <button class="btn btn-sm btn-primary" type="submit">Supprimer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                {% for ligne in infos_user_no_photo %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="/static/images/image.jpeg" alt="Photo de profile">
+                            <div class="card-body">
+                                <p class="card-text">{{ ligne.nom_utilisateur }}</p>
+                                <form class="" action="/perso/instagram/update_one" >
+                                    <input name="id_user" type="hidden" class="form-control rounded-3" id="id_user" value="{{ ligne.id_user }}">
+                                    <button class="btn btn-sm btn-primary" type="submit">Actualiser</button>
+                                </form>
+                                <form class="" action="/perso/instagram/show/user" >
+                                    <input name="id_user" type="hidden" class="form-control rounded-3" id="id_user" value="{{ ligne.id_user }}">
+                                    <button class="btn btn-sm btn-primary" type="submit">Regarder</button>
+                                </form>
+                                <form class="" action="/perso/instagram/delete" >
+                                    <input name="id_user" type="hidden" class="form-control rounded-3" id="id_user" value="{{ ligne.id_user }}">
+                                    <button class="btn btn-sm btn-primary" type="submit">Supprimer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+
+    <script>
+        function update_one(id_user) {
+            xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState===4 && xmlhttp.status===200) {
+
+                }
+            }
+            xmlhttp.open("GET", "/perso/instagram/update_one?id_user="+id_user, true);
+            xmlhttp.send();
+        }
+
+        function update_all() {
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                    var response = xmlhttp.responseText;
+                    var list = JSON.parse(response);
+
+                    for (var i = 0; i < list.length; i++) {
+                        update_one(list[i]);
+                    }
+                }
+            };
+            xmlhttp.open("GET", "/perso/instagram/get_nb_compte", true);
+            xmlhttp.send();
+        }
+    </script>
+{% endblock %}
+</body>
+</html>

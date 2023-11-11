@@ -5,58 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     {% block title %}
-        <title>Accueil</title>
+        <title>A propos de nous</title>
     {% endblock %}
 </head>
 
 <body>
-{% if accreditation == 1 %}
-    {% include('navbar_1.html') %}
-{% endif %}
-{% if accreditation == 2 %}
-    {% include('navbar_2.html') %}
-{% endif %}
-{% if accreditation == 3%}
-    {% include('navbar_3.html') %}
-{% else %}
-    {% include('navbar_4.html') %}
+
+{% include('Famille/navbar.html') %}
 
 {% block body %}
-<h1 class="a_propos_de_nous">Titre de niveau 1</h1>
-<p class="a_propos_de_nous">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ornare ante ut dolor consequat elementum.
-    Praesent mi arcu, varius a metus id, commodo rhoncus nulla. Praesent quis eleifend justo. Quisque tellus felis, tincidunt ac varius a,
-    ornare eu metus. Integer lacinia erat congue dolor fermentum, nec rutrum ante congue. Orci varius natoque penatibus et magnis dis parturient montes,
-    nascetur ridiculus mus. Quisque lobortis est eros. Cras lorem ligula, efficitur sit amet feugiat nec, dignissim non risus. Ut eu rhoncus metus.
-    Sed vitae molestie arcu. Maecenas varius mauris sed mauris varius sodales.
-    <br><br>
-    Suspendisse fermentum massa id vehicula pretium. Fusce egestas magna tellus, at hendrerit dolor posuere ac. Nullam molestie euismod erat nec
-    volutpat. Nunc consequat ut lectus a hendrerit. Sed lorem odio, laoreet ut ex eget, tempor suscipit tortor. Sed congue tellus vitae velit venenatis,
-    quis finibus arcu elementum. Cras vulputate lorem vitae ex cursus, ut pretium magna hendrerit. Phasellus nec lacinia massa. Mauris elementum est eu
-    feugiat suscipit. Vivamus dignissim tellus vel libero faucibus, sed venenatis sem posuere. Duis et tempus turpis.
-    <br><br>
-    Proin ac egestas est. Sed viverra magna id justo fermentum lacinia. Vestibulum id enim dictum, fringilla sapien nec, facilisis felis. Quisque
-    iaculis ullamcorper massa, vitae ullamcorper magna porta id. Nam a libero justo. Aenean efficitur non sem a placerat. Duis egestas et mauris ut
-    varius. Mauris ut varius risus. Cras tempor molestie augue a euismod. Aliquam vel arcu efficitur, pharetra magna id, tincidunt massa. Etiam sed
-    fringilla nibh. In hac habitasse platea dictumst. Donec dui enim, ultricies nec volutpat eu, tempus eget quam. Donec mattis, quam at rutrum pretium,
-    justo turpis sollicitudin tortor, auctor efficitur ligula erat non tellus.
-    <br><br>
-    Fusce commodo lacus id magna ornare scelerisque. Nunc eget molestie turpis. Morbi porta nunc sed suscipit accumsan. Mauris porttitor quam et quam
-    dignissim, sit amet eleifend ex blandit. Donec vehicula elit at mi pellentesque dictum eget sit amet orci. Class aptent taciti sociosqu ad litora
-    torquent per conubia nostra, per inceptos himenaeos. Phasellus egestas mattis viverra. Donec feugiat diam ut tincidunt euismod. Suspendisse at ornare
-    velit, id eleifend lacus. Mauris at est porta, lobortis urna ut, tempus ex.
-    <br><br>
-    Mauris vehicula, dui non sollicitudin pulvinar, ante turpis elementum tellus, et lobortis nunc nisi vitae massa. Aliquam tortor tellus, tincidunt
-    et consectetur ut, placerat eu nisl. Suspendisse potenti. Mauris ut libero porttitor, bibendum dolor eu, sagittis neque. Ut suscipit lacinia metus,
-    quis sagittis est fringilla quis. Sed ac ex nec nunc sagittis blandit a quis urna. Vestibulum ornare lacus id lacinia aliquam. Ut id est nec justo
-    laoreet lacinia nec eget nunc. Curabitur vitae ipsum diam. Praesent euismod turpis nibh, quis tempor urna efficitur id. Orci varius natoque
-    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc in tortor tristique, tempus metus fermentum, scelerisque ex. Pellentesque
-    consectetur urna eget turpis congue vulputate. Maecenas facilisis felis a luctus fermentum. Class aptent taciti sociosqu ad litora torquent per
-    conubia nostra, per inceptos himenaeos.
-</p>
-{% endblock %}
+{% for ligne in texte %}
+    <h1 class="a_propos_de_nous">{{ligne.titre}}</h1>
+    <p class="a_propos_de_nous">{{ligne.texte}}</p>
+{% endfor %}
 
-{% include('footer.html') %}
+{% endblock %}
 
 {% block javascripts %}
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>

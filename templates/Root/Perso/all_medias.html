@@ -9,51 +9,54 @@
 </head>
 
 <body>
-{% include('Tout_le_monde/navbar.html') %}
+
+{% include('Root/navbar.html') %}
+
 {% block body %}
+
 <div class="album py-5">
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
 
-            {% for ligne in info_medias %}
+            {% for ligne in infos_medias %}
+                {% if not ligne.lien_medias.endswith(('.xz', '.txt')) %}
                 <div class="col">
                     <div class="card shadow-sm">
-                        {% if ligne.id_type_medias == image['id_type_medias'] %}
-                            <img src="/static/images/{{ligne.lien_medias}}" alt="{{ligne.libelle_medias}}">
-                        {% endif %}
-                        {% if ligne.id_type_medias == video['id_type_medias'] %}
+                        {% if ligne.lien_medias.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
+                            <img src="/static/Perso/{{ligne.lien_medias}}" alt="{{ligne.libelle_medias}}">
+                        {% elif ligne.lien_medias.endswith(('.webm', '.mp4')) %}
                             <video controls>
-                                <source src="/static/videos/{{ligne.lien_medias}}" type="video/webm">
-                                <source src="/static/videos/{{ligne.lien_medias}}" type="video/mp4">
+                                <source src="/static/Perso/{{ligne.lien_medias}}" type="video/webm">
+                                <source src="/static/Perso/{{ligne.lien_medias}}" type="video/mp4">
                                 Download the
-                                <a href="/static/videos/{{ligne.lien_medias}}">WEBM</a>
+                                <a href="/static/Perso/{{ligne.lien_medias}}">WEBM</a>
                                 or
-                                <a href="/static/videos/{{ligne.lien_medias}}">MP4</a>
+                                <a href="/static/Perso/{{ligne.lien_medias}}">MP4</a>
                                 video.
                             </video>
-                        {% endif %}
-                        {% if ligne.id_type_medias == audio['id_type_medias'] %}
-                            <audio controls src="/static/audios/audio.mp3"> <a href="/static/audios/audio.mp3"> Download audio </a> </audio>
+                        {% elif ligne.lien_medias.endswith(('.mp3')) %}
+                            <audio controls src="/static/{{ligne.lien_medias}}"> <a href="/static/{{ligne.lien_medias}}"> Download audio </a> </audio>
                         {% endif %}
                         <div class="card-body">
-                            <p class="card-text"> {{ ligne.libelle_medias }} </p>
+                            <p class="card-text"> {{ ligne.lien_medias }} </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <form class="" action="/autres/medias/show" >
+                                    <form class="" action="/perso/instagram/show/medias" >
                                         <input name="id_medias" type="hidden" class="form-control rounded-3" id="id_medias" value="{{ ligne.id_medias }}">
                                         <button class="btn btn-sm btn-primary" type="submit">Regarder</button>
                                     </form>
                                 </div>
-                                <small class="text-muted"> {{ ligne.date_medias }} </small>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endif %}
             {% endfor %}
 
         </div>
     </div>
 </div>
+
 {% endblock %}
 
 {% block javascripts %}

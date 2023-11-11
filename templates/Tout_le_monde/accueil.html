@@ -15,14 +15,14 @@
     </style>
 </head>
 
-<body class="text-center bg-light" style="background-image: url('/static/images/accueil/{{image_accueil[0].libelle_image_accueil}}');   ">
+<body class="text-center bg-light" style="background-image: url('/static/images/{{image_accueil.libelle_image_accueil}}');   ">
 {% include('Tout_le_monde/navbar.html') %}
 
 {% block body %}
 
 <div class="text-center">
     {% for ligne in texte_accueil %}
-        <p class="text-light bg-dark" style="position: center; margin-left: 25%; margin-right: 25%;">{{ligne.texte_accueil}}</p>
+        <p class="text-light bg-dark" style="position: center; margin-left: 25%; margin-right: 25%;">{{ligne.texte_accueil|safe}}</p>
     {% endfor %}
 
     <br><br>
@@ -39,7 +39,10 @@
                                 <p class="card-text"> {{ ligne.description_album }} </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <p><a class="btn btn-sm btn-primary" href="#">Regarder</a></p>
+                                        <form class="" action="/autres/albums/show" >
+                                            <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="{{ ligne.id_album }}">
+                                            <button class="btn btn-sm btn-primary" type="submit">Regarder</button>
+                                        </form>
                                     </div>
                                     <small class="text-muted"> {{ ligne.date_album }} </small>
                                 </div>

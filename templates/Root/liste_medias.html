@@ -9,7 +9,7 @@
 </head>
 
 <body>
-{% include('Tout_le_monde/navbar.html') %}
+{% include('Root/navbar.html') %}
 {% block body %}
 <div class="album py-5">
     <div class="container">
@@ -39,7 +39,7 @@
                             <p class="card-text"> {{ ligne.libelle_medias }} </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <form class="" action="/autres/medias/show" >
+                                    <form class="" action="/root/medias/show" >
                                         <input name="id_medias" type="hidden" class="form-control rounded-3" id="id_medias" value="{{ ligne.id_medias }}">
                                         <button class="btn btn-sm btn-primary" type="submit">Regarder</button>
                                     </form>

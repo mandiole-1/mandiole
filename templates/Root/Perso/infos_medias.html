@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Médias</title>
+    {% endblock %}
+</head>
+
+<body>
+{% include('Root/navbar.html') %}
+{% block body %}
+
+<div class="container">
+    {% for ligne in infos_medias %}
+            <div class="card shadow-sm">
+                {% if ligne.lien_medias.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
+                    <img src="/static/Perso/{{ligne.lien_medias}}" alt="{{ligne.libelle_medias}}">
+                {% elif ligne.lien_medias.endswith(('.webm', '.mp4')) %}
+                    <video controls>
+                        <source src="/static/Perso/{{ligne.lien_medias}}" type="video/webm">
+                        <source src="/static/Perso/{{ligne.lien_medias}}" type="video/mp4">
+                        Download the
+                        <a href="/static/Perso/{{ligne.lien_medias}}">WEBM</a>
+                        or
+                        <a href="/static/Perso/{{ligne.lien_medias}}">MP4</a>
+                        video.
+                    </video>
+                {% elif ligne.lien_medias.endswith(('.mp3')) %}
+                    <audio controls src="/static/{{ligne.lien_medias}}"> <a href="/static/{{ligne.lien_medias}}"> Download audio </a> </audio>
+                {% endif %}
+                <div class="card-body">
+                    <p>Libelle : {{ ligne.lien_medias }}</p>
+                </div>
+            </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

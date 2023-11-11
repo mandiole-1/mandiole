@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Edition</title>
+    {% endblock %}
+    <style>
+        .bg-light {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body class="text-center bg-light">
+{% include('Administrateur/navbar.html') %}
+
+{% block body %}
+
+<div class="text-center">
+    <div class="album py-5">
+
+        <div class="container">
+            <h1>Accueil</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Modifier l'image </p>
+                            <form class="" action="/admin/edition/accueil/image" >
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Editer les albums de l'accueil </p>
+                            <form class="" action="/admin/edition/accueil/albums/show" >
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Modifier le texte de l'accueil </p>
+                            <form class="" action="/admin/edition/accueil/texte/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <h1>Albums</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Ajouter un album </p>
+                            <a href="/admin/edition/albums/add/show">
+                                <button class="btn btn-sm btn-primary" type="submit">Ajouter</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Editer un album </p>
+                            <form class="" action="/admin/albums/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Supprimer un album </p>
+                            <form class="" action="/admin/albums/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <h1>Médias</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Ajouter un médias </p>
+                            <form class="" action="/admin/albums/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Editer un médias </p>
+                            <form class="" action="/admin/albums/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Supprimer un médias </p>
+                            <form class="" action="/admin/albums/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <h1>A propos de nous</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Ajouter un médias </p>
+                            <form class="" action="/admin/albums/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Editer un médias </p>
+                            <form class="" action="/admin/albums/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/image.jpeg" alt="Texte de remplacement">
+                        <div class="card-body">
+                            <p class="card-text"> Supprimer un médias </p>
+                            <form class="" action="/admin/albums/show" >
+                                <input name="id_album" type="hidden" class="form-control rounded-3" id="id_album" value="1">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

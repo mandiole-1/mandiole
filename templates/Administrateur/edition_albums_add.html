@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Albums</title>
+    {% endblock %}
+</head>
+<body>
+{% include('Administrateur/navbar.html') %}
+{% block body %}
+<small><font color="red">* les champs doivent être renseigner pour pouvoir crée l'albums.</font></small>
+<div class="album py-5">
+    <form class="" method="POST" action="/admin/edition/albums/add/text">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <h5>Nom de l'album<font color="red">*</font></h5>
+                        <div class="form-floating mb-3">
+                            <input name="nom" type="text" class="form-control rounded-3" id="nom" placeholder="Saisir le nom de l'album ici" required>
+                            <label for="nom">Nom de l'album</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <h5>Date de l'album</h5>
+                        <input type="date" name="date">
+                        <small>Si aucune date n'est sélectionner par default la date sera celle du jour de création de l'album.</small>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <h5>Description de l'album<font color="red">*</font></h5>
+                        <div class="form-floating mb-3">
+                            <textarea name="description" id="description" class="form-control" aria-label="With textarea"></textarea>
+                            <label for="description">Description de l'album</label>
+                        </div>
+                        <!--
+                        <pre>
+                            <textarea name="description" class="form-control" aria-label="With textarea"></textarea>
+                        </pre>
+                        -->
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <h5>Texte de description de l'album</h5>
+                        <div class="form-floating mb-3">
+                            <textarea name="text_description" id="text_description" class="form-control" aria-label="With textarea"></textarea>
+                            <label for="text_description">Texte de description de l'album</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <h5>Image de garde</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="image_garde">
+                            <label class="form-check-label" for="image_garde">
+                                Cocher pour mettre une image de garde
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <h5>Médias de l'albums</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="medias">
+                            <label class="form-check-label" for="image_garde">
+                                Cocher pour mettre des médias
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Continuer</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>

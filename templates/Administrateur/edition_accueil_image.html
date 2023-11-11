@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>Edition</title>
+    {% endblock %}
+    <style>
+        .bg-light {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body class="text-center bg-light">
+{% include('Administrateur/navbar.html') %}
+
+{% block body %}
+
+<div class="text-center">
+    <div class="album py-5">
+
+        {% for ligne in infos_accueil %}
+        <div class="container">
+            <h1>Accueil</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-1 g-4">
+
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/{{ ligne.image }}" alt="Image actuel">
+                        <div class="card-body">
+                            <p class="card-text"> Image actuel </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+
+
+        <div class="container">
+            <h1>Images disponibles</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+
+            {% for ligne in infos_medias %}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="/static/images/{{ ligne.image }}" alt="{{ligne.image}}">
+                        <div class="card-body">
+                            <p class="card-text"> {{ ligne.libelle }} </p>
+                            <form class="" action="/admin/edition/accueil/image/update" >
+                                <input name="lien" type="hidden" class="form-control rounded-3" id="lien" value="{{ligne.image}}">
+                                <button class="btn btn-sm btn-primary" type="submit">Modifier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+{% endblock %}
+</body>
+</html>
